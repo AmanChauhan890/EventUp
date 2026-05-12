@@ -23,6 +23,7 @@ const register = async(req,res) => {
             password: hashedPassword,
             role: 'user'
         });
+        res.status(201).json({message: "User registered successfully"});
     }catch(err){
         res.status(500).json({message: 'Server Error'});
     }
