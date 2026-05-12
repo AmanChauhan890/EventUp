@@ -12,14 +12,14 @@ const bookEvent = async(req, res) => {
             return res.status(400).json({ message: 'No seats available' });
         }
 
-        const existingBooking = await Booking.findOne({userId : req.body.id, eventId});
+        const existingBooking = await Booking.findOne({userId : req.user.id, eventId});
 
         if(existingBooking && existingBooking.status !== 'cancelled'){
             return res.status(400).json({ message: 'Already booked or pending' });
         }
 
         const booking = await Booking.create({
-            userId: req.body.id,
+            userId: req.user.id,
             eventId,
             status: 'pending',
             paymentStatus: 'not_paid',
@@ -68,7 +68,10 @@ const confirmBooking = async(req, res) => {
 
 const getMyBookings = async(req, res) => {
     try{
-       const bookings = await Booking.find({ userId: req.body.id }).populate('eventId').sort({ createdAt: -1 });
+       const bookings = await Booking.find({ userId: req.user.id }).populate('eventId').sort({ createdAt: -1 });
+       if(bookings.length === 0){
+            return res.status(404).json({ message: 'No bookings found' });
+       }
        res.json(bookings);
     }catch(err){
         res.status(500).json({ message: 'Server Error'});
@@ -83,7 +86,7 @@ const cancelBooking = async(req, res) => {
             return res.status(404).json({ message: 'Booking not found' });
         }
 
-        if(booking.userId !== req.body.id){
+        if(booking.userId !== req.user.id && req.user.role !== 'admin'){
             return res.status(403).json({ message: 'Not authorized' });
         }
 
