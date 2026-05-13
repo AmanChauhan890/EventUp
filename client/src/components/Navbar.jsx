@@ -1,6 +1,6 @@
 import {useContext} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext.js';
+import { AuthContext } from '../context/AuthContext.jsx';
 import {FaTicketAlt} from 'react-icons/fa';
 
 const Navbar = () => {

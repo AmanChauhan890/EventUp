@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import { userParams, useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate} from 'react-router-dom';
 import api from '../utils/axios.jsx';
 import { AuthContext } from '../context/AuthContext';
-import { FaCalenderAlt, FaMapMarketAlt, FaChair, FaMoneyBillWave } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaChair, FaMoneyBillWave } from 'react-icons/fa';
 
 const EventDetail = () => {
     const { id } = useParams();
