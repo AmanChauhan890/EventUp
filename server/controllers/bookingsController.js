@@ -68,6 +68,13 @@ const confirmBooking = async(req, res) => {
 
 const getMyBookings = async(req, res) => {
     try{
+        if(req.user.role === 'admin'){
+            const allBookings = await Booking.find({}).populate('eventId').sort({createdAt: -1});
+            if(allBookings.length === 0){
+                 return res.status(404).json({ message: 'No bookings found' });
+            }
+            res.json(allBookings);
+        }
        const bookings = await Booking.find({ userId: req.user.id }).populate('eventId').sort({ createdAt: -1 });
        if(bookings.length === 0){
             return res.status(404).json({ message: 'No bookings found' });
@@ -75,6 +82,7 @@ const getMyBookings = async(req, res) => {
        res.json(bookings);
     }catch(err){
         res.status(500).json({ message: 'Server Error'});
+        console.log(err)
     }
 };
 
@@ -85,8 +93,8 @@ const cancelBooking = async(req, res) => {
         if(!booking){
             return res.status(404).json({ message: 'Booking not found' });
         }
-
-        if(booking.userId !== req.user.id && req.user.role !== 'admin'){
+        
+        if(booking.userId.toString() !== req.user.id && req.user.role !== 'admin'){
             return res.status(403).json({ message: 'Not authorized' });
         }
 
