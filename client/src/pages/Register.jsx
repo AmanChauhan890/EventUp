@@ -2,13 +2,14 @@ import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const {register} = useContext(AuthContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -16,7 +17,7 @@ const Login = () => {
         setError('');
 
         try {
-            const data = await Login(email, password);
+            const data = await register(name,email, password);
             if (data.role == 'admin') {
                 navigate('/admin');
             } else {
@@ -31,7 +32,7 @@ const Login = () => {
     }
 
 
-    (
+    return (
         <div className="max-w-md mx-auto mt-20 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
             <div className="text-center mb-8">
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Create an Account</h2>

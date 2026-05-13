@@ -7,6 +7,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const {login} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
@@ -15,18 +16,18 @@ const Login = () => {
         setError('');
 
         try {
-            const data = await register(name,email, password);
+            const data = await login(email, password);
              navigate('/dashboard');
         
         } catch (err) {
-            setError(err.message || err);
+            setError(err.response?.data?.message || err);
         } finally {
             setLoading(false);
         }
     }
 
 
-    (
+    return  (
         <div className="max-w-md mx-auto mt-20 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
             <div className="text-center mb-8">
                 <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Welcome Back</h2>
