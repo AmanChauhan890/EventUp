@@ -8,7 +8,7 @@ const getEvents = async(req,res) => {
         };
 
         if(req.query.search){
-            filter.title = {$regex: request.query.search, $options: 'i'};
+            filters.title = {$regex: req.query.search, $options: 'i'};
         };
 
         const events = await Event.find(filters).populate('createdBy', 'name email');

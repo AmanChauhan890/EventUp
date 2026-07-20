@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth.js');
- const eventRoutes = require('./routes/events.js')
+const eventRoutes = require('./routes/events.js');
 const bookingRoutes = require('./routes/bookings.js');
 
 
